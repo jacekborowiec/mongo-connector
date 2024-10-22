@@ -1,4 +1,4 @@
-package pl.asseco.imdas;
+package pl.jb.mongo;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
