@@ -1,5 +1,8 @@
 package pl.jb.mongo;
 
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ReadConcern;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -16,7 +19,13 @@ import static com.mongodb.client.model.Filters.*;
 public class Crud {
     public static void main(String[] args) {
         String connectionString = "mongodb+srv://myAtlasDBUser:myatlas-001@myatlasclusteredu.u5mgn.mongodb.net/?retryWrites=true&w=majority&appName=myAtlasClusterEDU";
-        try (MongoClient mongoClient = MongoClients.create(connectionString)) {
+        MongoClientSettings settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(connectionString))
+                .applicationName("akuku")
+                .readConcern(ReadConcern.MAJORITY)
+                .build();
+
+        try (MongoClient mongoClient = MongoClients.create(settings)) {
             List<Document> databases = mongoClient.listDatabases().into(new ArrayList<>());
             databases.forEach(db -> System.out.println(db.toJson()));
 
